@@ -4,8 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import session from 'express-session';
 import flash from 'connect-flash';
-import { ensureAuthenticated } from './middlewares/authMiddleware.js';
-import userRoutes from './routes/userRoutes.js';  // Import the routes
+import userRoutes from './src/routes/userRoutes.js';  // Import the routes
 
 const app = express();
 const PORT = 3000;
@@ -20,10 +19,10 @@ app.use(express.urlencoded({ extended: true }));
 
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'src','views'));
 
 // Serve static files
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, '/public')));
 
 // Session setup
 app.use(session({
