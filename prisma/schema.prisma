@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  files     File[]   // One user can upload many files
+  folders   Folder[] // One user can create many folders
+  createdAt DateTime @default(now())
+}
+
+model Folder {
+  id        Int      @id @default(autoincrement())
+  name      String
+  files     File[]   // A folder can contain many files
+  userId    Int      // Foreign key to the User
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model File {
+  id        Int      @id @default(autoincrement())
+  name      String
+  folderId  Int?     // Foreign key to the Folder, nullable if file is not in a folder
+  folder    Folder?  @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  userId    Int      // Foreign key to the User who uploaded the file
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}

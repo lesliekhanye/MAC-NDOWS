@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mac-Ndows Desktop</title>
+  <link rel="icon" type="image/x-icon" href="/images/macndows.png">
+
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(100px); }
+    to { transform: translateY(0); }
+  }
+
+  body {
+    background: url('/images/defaultback.png') no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    color: white;
+  }
+
+  #dock {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 800px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-out, slideUp 0.5s ease-out;
+  }
+
+  #dock .dock-section {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    justify-content: center;
+  }
+
+  #dock img, #dock .icon {
+    height: 40px;
+    width: 40px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  #dock img:hover, #dock .icon:hover {
+    transform: scale(1.1);
+  }
+
+  #date-time {
+    font-size: 1rem;
+    font-weight: 500;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  }
+
+  .folder {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .folder:hover {
+    transform: scale(1.1);
+  }
+
+  .folder-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto;
+    background-image: url('/icons/folder.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .folder-name {
+    margin-top: 5px;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    padding: 2px;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 78px;
+  }
+
+  .folder-name.editing {
+    background: white;
+    color: black;
+    border: 1px solid #0078d7;
+    text-shadow: none;
+    outline: none;
+    border-radius: 2px;
+  }
+
+  #context-menu {
+    position: absolute;
+    display: none;
+    background: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 8px 0;
+    min-width: 150px;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  #context-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  #context-menu ul li {
+    padding: 8px 16px;
+    cursor: pointer;
+    color: #333;
+    transition: background-color 0.2s ease-in-out;
+  }
+
+  #context-menu ul li:hover {
+    background-color: #f0f0f0;
+  }
+
+  .icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+
+  .icon-settings {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>');
+  }
+
+  .icon-file {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>');
+  }
+
+  .icon-image {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>');
+  }
+
+  #settings-window {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 500px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: none;
+    z-index: 1000;
+    color: #333;
+  }
+
+  #settings-window-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: #f0f0f0;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    cursor: move;
+  }
+
+  .window-buttons {
+    display: flex;
+  }
+
+  .window-button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 6px;
+    cursor: pointer;
+  }
+
+  .close-button { background-color: #ff5f56; }
+  .minimize-button { background-color: #ffbd2e; }
+  .maximize-button { background-color: #27c93f; }
+
+  #settings-window-content {
+    padding: 20px;
+  }
+  </style>
+</head>
+<body class="select-none">
+  <!-- Dock -->
+  <div id="dock">
+    <div class="dock-section">
+      <div class="icon icon-settings" id="settings" onclick="openSettings()"></div>
+      <a href="https://www.google.com/chrome" target="_blank" class="dock-icon">
+        <img src="https://www.google.com/chrome/static/images/chrome-logo.svg" alt="Chrome" title="Chrome">
+      </a>
+      <a href="https://www.youtube.com" target="_blank" class="dock-icon">
+        <img src="https://www.youtube.com/s/desktop/7c155e84/img/favicon_144x144.png" alt="YouTube" title="YouTube">
+      </a>
+      <a href="https://www.chess.com" target="_blank" class="dock-icon">
+        <img src="https://www.chess.com/favicon.ico" alt="Chess.com" title="Chess.com">
+      </a>
+    </div>
+    <div class="dock-section">
+      <img src="/images/macndows.png" alt="Mac-Ndows Logo" id="logo" onclick="toggleLogout()">
+    </div>
+    <div class="dock-section">
+      <div id="date-time"></div>
+    </div>
+  </div>
+
+  <!-- Context Menu -->
+  <div id="context-menu">
+    <ul>
+      <li onclick="createFolder()"><span class="icon icon-folder"></span>Create Folder</li>
+      <li onclick="createFile()"><span class="icon icon-file"></span>Create File</li>
+      <li onclick="changeBackground()"><span class="icon icon-image"></span>Change Background</li>
+    </ul>
+  </div>
+
+  <!-- Settings Window -->
+  <div id="settings-window">
+    <div id="settings-window-header">
+      <div class="window-buttons">
+        <span class="window-button close-button" onclick="closeSettings()"></span>
+        <span class="window-button minimize-button"></span>
+        <span class="window-button maximize-button"></span>
+      </div>
+      <h2>Settings</h2>
+      <div style="width: 50px;"></div>
+    </div>
+    <div id="settings-window-content">
+      <h3>Account Details</h3>
+     
+      <p><strong>Name:</strong> <%- user.name %></p>
+      <p><strong>Email:</strong> <%- user.email %></p>
+      <p><strong>Password:</strong> ********</p>
+
+      <h3>How to Use</h3>
+      <p><strong>Creating Folder:</strong> Right-click on the desktop and select "Create Folder"</p>
+      <p><strong>Creating File:</strong> Right-click inside a folder and select "Create File"</p>
+      <p><strong>Logout:</strong> Click on the lovely Mac-Ndows logo in the dock</p>
+    </div>
+  </div>
+
+  <script>
+    // Global variables
+    let folderCount = 0;
+    const gridSize = 100; // Spacing between folders
+
+    // Show current date and time
+    function updateDateTime() {
+      const now = new Date();
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+      document.getElementById('date-time').textContent = now.toLocaleDateString('en-US', options);
+    }
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
+
+    // Folder creation and management
+    function createFolder() {
+      folderCount++;
+      const folder = document.createElement('div');
+      folder.className = 'folder';
+      
+      // Calculate position on grid
+      const row = Math.floor((folderCount - 1) / 3);
+      const col = (folderCount - 1) % 3;
+      
+      folder.style.top = `${100 + (row * gridSize)}px`;
+      folder.style.left = `${100 + (col * gridSize)}px`;
+      
+      // Create folder icon
+      const folderIcon = document.createElement('div');
+      folderIcon.className = 'folder-icon';
+      
+      // Create folder name
+      const folderName = document.createElement('div');
+      folderName.className = 'folder-name';
+      folderName.contentEditable = true;
+      folderName.textContent = 'New Folder';
+      
+      // Add elements to folder
+      folder.appendChild(folderIcon);
+      folder.appendChild(folderName);
+      
+      // Make folder draggable
+      makeDraggable(folder);
+      
+      // Add folder to document
+      document.body.appendChild(folder);
+      
+      // Select the text for immediate editing
+      selectFolderNameForEditing(folderName);
+      
+      // Hide context menu
+      contextMenu.style.display = 'none';
+      
+      // Save folder to database
+      saveFolderToDatabase({
+        name: 'New Folder',
+        userId: getCurrentUserId()
+      });
+    }
+
+    function makeDraggable(folder) {
+      let newX = 0, newY = 0, startX = 0, startY = 0;
+      
+      folder.addEventListener('mousedown', function(e) {
+        // Don't initiate drag if we're editing the name
+        if (e.target.classList.contains('folder-name') && 
+            e.target.classList.contains('editing')) {
+          return;
+        }
+        
+        e.preventDefault();
+        startX = e.clientX;
+        startY = e.clientY;
+        
+        function mouseMove(e) {
+          e.preventDefault();
+          newX = startX - e.clientX;
+          newY = startY - e.clientY;
+          startX = e.clientX;
+          startY = e.clientY;
+          
+          folder.style.top = (folder.offsetTop - newY) + 'px';
+          folder.style.left = (folder.offsetLeft - newX) + 'px';
+        }
+        
+        function mouseUp() {
+          document.removeEventListener('mousemove', mouseMove);
+          document.removeEventListener('mouseup', mouseUp);
+        }
+        
+        document.addEventListener('mousemove', mouseMove);
+        document.addEventListener('mouseup', mouseUp);
+      });
+
+      // Add double-click handler for name editing
+      folder.addEventListener('dblclick', function(e) {
+        if (e.target.classList.contains('folder-name')) {
+          selectFolderNameForEditing(e.target);
+        }
+      });
+    }
+
+    function selectFolderNameForEditing(folderName) {
+      folderName.classList.add('editing');
+      folderName.focus();
+      
+      // Select all text
+      const range = document.createRange();
+      range.selectNodeContents(folderName);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      
+      function handleBlur() {
+        finishEditing(folderName);
+        folderName.removeEventListener('blur', handleBlur);
+        folderName.removeEventListener('keydown', handleKeyDown);
+      }
+      
+      function handleKeyDown(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          finishEditing(folderName);
+          folderName.removeEventListener('blur', handleBlur);
+          folderName.removeEventListener('keydown', handleKeyDown);
+        }
+        if (e.key === 'Escape') {
+          folderName.textContent = 'New Folder';
+          finishEditing(folderName);
+          folderName.removeEventListener('blur', handleBlur);
+          folderName.removeEventListener('keydown', handleKeyDown);
+        }
+      }
+      
+      folderName.addEventListener('blur', handleBlur);
+      folderName.addEventListener('keydown', handleKeyDown);
+    }
+
+    function finishEditing(folderName) {
+      folderName.classList.remove('editing');
+      
+      // Prevent empty names
+      if (folderName.textContent.trim() === '') {
+        folderName.textContent = 'New Folder';
+      }
+      
+      // Update folder name in database
+      updateFolderInDatabase({
+        id: getFolderId(folderName),
+        name: folderName.textContent,
+        userId: getCurrentUserId()
+      });
+    }
+
+    // Context Menu
+    const contextMenu = document.getElementById('context-menu');
+
+    document.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      contextMenu.style.display = 'block';
+      contextMenu.style.left = `${e.clientX}px`;
+      contextMenu.style.top = `${e.clientY}px`;
+    });
+
+    document.addEventListener('click', () => {
+      contextMenu.style.display = 'none';
+    });
+
+    // Settings window management
+    const settingsWindow = document.getElementById('settings-window');
+
+    function openSettings() {
+      settingsWindow.style.display = 'block';
+    }
+
+    function closeSettings() {
+      settingsWindow.style.display = 'none';
+    }
+
+    // Database interaction functions
+    async function saveFolderToDatabase(folderData) {
+      try {
+        const response = await fetch('/api/folders', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(folderData)
+        });
+        return await response.json();
+      } catch (error) {
+        console.error('Error saving folder:', error);
+      }
+    }
+
+    async function updateFolderInDatabase(folderData) {
+      try {
+        const response = await fetch(`/api/folders/${folderData.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(folderData)
+        });
+        return await response.json();
+      } catch (error) {
+        console.error('Error updating folder:', error);
+      }
+    }
+
+    // Helper functions
+    function getCurrentUserId() {
+      // Replace this with your actual user ID retrieval logic
+      return 1; // Temporary placeholder
+    }
+
+    function getFolderId(folderName) {
+      // Replace this with your actual folder ID retrieval logic
+      // You might want to store the ID as a data attribute when creating the folder
+      return folderName.parentElement.dataset.folderId;
+    }
+
+    // Make settings window draggable
+    const settingsHeader = document.getElementById('settings-window-header');
+    let isDragging = false;
+    let currentX;
+    let currentY;
+    let initialX;
+    let initialY;
+    let xOffset = 0;
+    let yOffset = 0;
+
+    settingsHeader.addEventListener('mousedown', dragStart);
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('mouseup', dragEnd);
+
+    function dragStart(e) {
+      initialX = e.clientX - xOffset;
+      initialY = e.clientY - yOffset;
+
+      if (e.target === settingsHeader) {
+        isDragging = true;
+      }
+    }
+
+    function drag(e) {
+      if (isDragging) {
+        e.preventDefault();
+        currentX = e.clientX - initialX;
+        currentY = e.clientY - initialY;
+
+        xOffset = currentX;
+        yOffset = currentY;
+
+        setTranslate(currentX, currentY, settingsWindow);
+      }
+    }
+
+    function dragEnd() {
+      initialX = currentX;
+      initialY = currentY;
+      isDragging = false;
+    }
+
+    function setTranslate(xPos, yPos, el) {
+      el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
+    }
+
+    // Logout functionality
+    function toggleLogout() {
+      if (confirm('Do you want to logout?')) {
+        window.location.href = '/login';
+      }
+    }
+
+    // Placeholder functions
+    function createFile() {
+      alert('File creation is not implemented yet!');
+    }
+
+    function changeBackground() {
+      alert('Background change is not implemented yet!');
+    }
+  </script>
+</body>
+</html>

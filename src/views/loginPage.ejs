@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="/images/macndows.png">
+  <title>Login - MAC-NDOWS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-color: #353535;
+      color: #f5f5f5;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      overflow: hidden; /* Prevent scrolling */
+    }
+    .minion-img {
+      max-width: 300px;
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-[#353535]">
+
+  <%- include('./partials/notification.ejs') %>
+  <!-- Login Form and Minions Image -->
+  <div class="flex justify-between items-center w-full max-w-7xl p-8 h-screen overflow-hidden">
+    <!-- Left Minion Image -->
+    <div class="hidden sm:block w-1/4">
+      <img src="/images/registerminion1.png" alt="Minion 1" class="minion-img">
+    </div>
+
+    <!-- Center Section with Logo and Form -->
+    <div class="w-full sm:w-1/2 bg-[#444444] p-8 rounded-lg shadow-lg space-y-6">
+      <!-- Logo at the top -->
+       <a href="/"  >
+        <div class="flex justify-center mb-6">
+          <img src="/images/macndows.png" alt="MAC-NDOWS Logo" class="w-24 h-auto">
+        </div>
+        </a>
+     
+      
+      <h1 class="text-4xl font-bold text-center text-white">LOGIN WITH THE DETAILS YOU USED TO REGISTER (OBVIOUS)</h1>
+      
+      <!-- Form Fields -->
+      <form action="/login" method="POST" class="space-y-4">
+        <div>
+          <label for="email" class="block text-sm text-gray-300">Email</label>
+          <input type="email" id="email" name="email" required class="w-full p-3 mt-1 rounded-md bg-[#353535] text-white border border-gray-500 focus:outline-none focus:ring-2 focus:ring-[#f9dc5c]">
+        </div>
+
+        <div>
+          <label for="password" class="block text-sm text-gray-300">Password</label>
+          <input type="password" id="password" name="password" required class="w-full p-3 mt-1 rounded-md bg-[#353535] text-white border border-gray-500 focus:outline-none focus:ring-2 focus:ring-[#f9dc5c]">
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex justify-between items-center mt-6">
+          <button type="submit" class="minion-btn px-6 py-3 font-medium text-lg text-black rounded-full bg-[#f9dc5c] hover:bg-[#e5c644]">
+            LOGIN
+          </button>
+          <p class="text-sm text-gray-300">
+            <a href="/register" class="underline text-blue-400 hover:text-blue-500">REGISTER IF YOU DON’T HAVE AN ACCOUNT</a>
+          </p>
+        </div>
+      </form>
+
+      <!-- Footer Text -->
+      <footer class="text-center text-sm text-gray-400 mt-6">
+        NB: NOT AFFILIATED WITH MINIONS, BUT I’D TOTALLY STEAL THE MOON.
+      </footer>
+    </div>
+
+    <!-- Right Minion Image -->
+    <div class="hidden sm:block w-1/4">
+      <img src="/images/registerminion2.png" alt="Minion 2" class="minion-img">
+    </div>
+  </div>
+
+  
+</body>
+</html>
